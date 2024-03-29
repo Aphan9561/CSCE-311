@@ -1,0 +1,111 @@
+************** Testing with no arguments**************
+annaphan@Anna-Phan Program1 % make noArg
+g++ -Wall --std=c++17 sloppySim.cpp -o sloppySim -pthread
+time ./sloppySim
+skipping means that you can some arguments from left to right but once you skip one you must skip all the rest
+Calculating the time cost of 1B increments
+
+
+It took 1.2325 s to do 1B increments
+So it should take 811357 increments for ~1ms of operations
+with simulation parameters:
+  #threads = 2
+  sloppiness = 10
+  work time = 10
+  work iterations = 100
+  CPU bound = 0
+  Do logging = 0
+Final Global Counter: 200
+        1.28 real         0.00 user         0.00 sys
+
+************** Testing the small number**************
+annaphan@Anna-Phan Program1 % make smallEx   
+g++ -Wall --std=c++17 sloppySim.cpp -o sloppySim -pthread
+time ./sloppySim 4 5 11 100 false true
+Calculating the time cost of 1B increments
+
+Logging every 110 ms
+Global Ct = 30 Locals [0,0,3,4]
+Global Ct = 65 Locals [4,1,1,3]
+Global Ct = 105 Locals [2,1,1,3]
+Global Ct = 140 Locals [2,1,3,2]
+Global Ct = 170 Locals [4,4,3,1]
+Global Ct = 210 Locals [4,3,4,0]
+Global Ct = 250 Locals [4,2,3,0]
+Global Ct = 285 Locals [4,4,1,0]
+Global Ct = 330 Locals [1,4,1,1]
+Global Ct = 360 Locals [4,2,0,4]
+
+It took 1.27387 s to do 1B increments
+So it should take 785009 increments for ~1ms of operations
+with simulation parameters:
+  #threads = 4
+  sloppiness = 5
+  work time = 11
+  work iterations = 100
+  CPU bound = 0
+  Do logging = 1
+Final Global Counter: 400
+        1.35 real         0.00 user         0.00 sys
+
+
+************** Testing CPU Bound**************
+annaphan@Anna-Phan Program1 % make cpuBoundEx
+g++ -Wall --std=c++17 sloppySim.cpp -o sloppySim -pthread
+time ./sloppySim 4 5 11 100 true true
+Calculating the time cost of 1B increments
+
+Logging every 110 ms
+Global Ct = 20 Locals [1,1,1,1]
+Global Ct = 40 Locals [2,2,2,2]
+Global Ct = 60 Locals [3,3,3,3]
+Global Ct = 80 Locals [4,4,4,4]
+Global Ct = 120 Locals [0,0,0,0]
+Global Ct = 140 Locals [1,1,1,1]
+Global Ct = 160 Locals [1,2,2,1]
+Global Ct = 180 Locals [2,2,2,2]
+Global Ct = 200 Locals [3,3,3,3]
+Global Ct = 220 Locals [4,4,4,4]
+
+It took 1.91957 s to do 1B increments
+So it should take 520949 increments for ~1ms of operations
+with simulation parameters:
+  #threads = 4
+  sloppiness = 5
+  work time = 11
+  work iterations = 100
+  CPU bound = 1
+  Do logging = 1
+Final Global Counter: 400
+        1.97 real         7.63 user         0.00 sys
+
+
+************** Testing Large Number **************
+annaphan@Anna-Phan Program1 % make largeEx   
+g++ -Wall --std=c++17 sloppySim.cpp -o sloppySim -pthread
+time ./sloppySim 80 5 11 100 false true 
+Calculating the time cost of 1B increments
+
+Logging every 110 ms
+Global Ct = 545 Locals [3,3,4,4,4,3,3,3,3,4,3,0,3,2,3,2,4,3,2,3,4,3,3,0,3,4,0,3,3,3,0,0,0,3,1,4,0,4,0,4,0,0,0,0,0,2,0,3,0,2,4,0,1,3,3,3,1,2,3,3,0,4,1,0,4,4,2,3,1,2,0,4,0,4,0,2,0,3,2,0]
+Global Ct = 1265 Locals [2,2,3,0,0,4,2,2,2,4,2,4,1,2,3,0,3,2,2,2,3,3,4,3,2,4,4,1,3,3,3,4,3,1,2,4,3,3,4,4,4,0,4,4,4,3,0,1,4,2,2,2,1,3,3,2,2,1,2,2,4,3,4,1,0,2,1,1,1,2,4,3,4,3,0,1,4,2,3,4]
+Global Ct = 2050 Locals [1,1,2,1,0,3,2,2,2,3,1,4,0,2,0,0,1,2,2,2,3,4,3,3,2,4,3,0,3,3,1,4,2,0,2,3,3,2,2,4,2,0,0,4,4,2,3,4,3,2,0,1,1,2,2,0,2,0,3,1,3,2,2,1,3,0,4,2,2,0,1,3,3,3,4,1,3,0,4,2]
+Global Ct = 2775 Locals [1,0,2,4,0,3,0,2,0,1,1,3,1,3,0,4,4,4,1,4,3,3,2,4,1,2,2,1,2,0,0,1,1,0,0,3,2,2,2,4,3,3,3,3,0,4,3,4,3,3,3,2,1,0,2,4,0,4,1,4,3,1,1,0,3,3,3,0,0,4,2,4,1,3,2,4,2,4,4,3]
+Global Ct = 3500 Locals [1,4,0,3,3,2,3,0,0,4,0,3,4,1,0,3,2,2,2,0,3,1,0,0,0,0,2,4,0,4,3,0,2,4,4,1,1,0,2,3,2,1,4,2,0,4,2,2,2,3,2,1,0,0,4,3,4,2,0,4,0,4,3,4,4,4,2,0,4,2,3,3,1,4,2,4,0,2,2,3]
+Global Ct = 4250 Locals [1,3,4,2,1,3,2,4,1,3,0,1,4,2,0,2,0,2,1,3,1,1,2,1,3,4,1,4,3,0,2,3,0,4,4,0,1,4,0,3,0,0,4,1,4,3,2,4,0,3,2,1,0,3,2,4,4,3,0,2,0,4,2,3,4,3,3,4,2,3,1,1,0,2,1,4,0,0,2,2]
+Global Ct = 4965 Locals [4,2,0,2,4,2,1,3,0,3,4,0,3,1,4,2,3,1,2,4,4,4,1,0,3,3,0,4,2,4,2,3,3,3,0,3,1,3,4,2,4,4,1,3,1,0,0,2,4,4,1,0,1,1,0,1,3,2,3,2,4,3,1,3,4,2,0,4,2,3,3,0,3,1,2,4,4,4,1,1]
+Global Ct = 5745 Locals [2,0,4,2,2,1,1,2,2,1,1,3,1,0,0,2,1,0,2,2,4,4,4,0,1,3,1,0,0,3,0,3,0,2,1,2,1,3,3,0,2,3,0,2,1,4,0,0,3,2,2,4,4,0,3,1,3,2,2,1,0,4,0,2,2,2,2,4,1,3,3,0,2,0,1,3,4,4,1,0]
+Global Ct = 6485 Locals [4,4,4,2,2,4,3,4,2,1,0,2,0,4,1,1,4,3,1,1,3,3,3,1,0,2,0,3,3,2,4,3,4,1,1,3,2,2,2,0,0,2,0,1,0,4,0,4,1,2,0,3,0,2,1,1,3,2,2,1,2,2,1,2,2,1,1,4,1,1,2,4,1,0,2,1,1,3,4,4]
+Global Ct = 7210 Locals [4,4,3,2,4,2,2,4,0,1,0,1,2,4,0,2,4,3,0,0,1,2,1,0,4,1,4,3,2,2,3,2,0,4,0,2,2,1,1,4,4,1,4,4,3,4,1,4,4,1,0,3,4,1,0,0,2,1,1,0,0,3,0,1,0,4,0,4,3,1,1,1,2,4,1,2,4,2,2,3]
+
+It took 1.341 s to do 1B increments
+So it should take 745712 increments for ~1ms of operations
+with simulation parameters:
+  #threads = 80
+  sloppiness = 5
+  work time = 11
+  work iterations = 100
+  CPU bound = 0
+  Do logging = 1
+Final Global Counter: 7995
+        1.39 real         0.11 user         0.09 sys
